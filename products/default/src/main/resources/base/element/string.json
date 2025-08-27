@@ -10,7 +10,7 @@
     },
     {
       "name": "ability_label",
-      "value": "label"
+      "value": "immich"
     },
     {
       "name": "grid_title_label",
@@ -35,6 +35,10 @@
     {
       "name": "location_cap_valid",
       "value": "This device has the system capability of location service"
+    },
+    {
+      "name": "immich_server_url",
+      "value": "immich 服务器地址"
     }
   ]
 }

@@ -171,6 +171,10 @@
     {
       "name": "tab_text_xl_left",
       "value": "0vp"
+    },
+    {
+      "name": "page_text_font_size",
+      "value": "50fp"
     }
   ]
 }

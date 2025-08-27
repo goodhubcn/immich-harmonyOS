@@ -3,6 +3,8 @@
     "pages/Index",
     "pages/AdaptiveIndex",
     "pages/ResponsiveIndex",
-    "pages/SystemCapabilitiesIndex"
+    "pages/SystemCapabilitiesIndex",
+    "pages/ServerUrl",
+    "pages/Login"
   ]
 }
