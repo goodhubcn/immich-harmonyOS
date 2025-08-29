@@ -43,6 +43,18 @@ export interface Authentication {
    "email": "testuser@email.com",
    "password": "password"
    }'
+   *
+   *
+   * {
+   "accessToken": "EXZZaoi1kTJHpYgEiGGFQ0J5OyWX2QV3n6WS9DZiH0",
+   "userId": "f09d89c8-24f2-4d94-9120-ed8a83204ef3",
+   "userEmail": "m.jackie@aliyun.com",
+   "name": "immich-test",
+   "isAdmin": false,
+   "profileImagePath": "",
+   "shouldChangePassword": false,
+   "isOnboarded": true
+   }
    * */
   login: (email: string, password: string) => Promise<void>;
 

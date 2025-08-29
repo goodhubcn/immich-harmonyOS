@@ -5,6 +5,7 @@
     "pages/ResponsiveIndex",
     "pages/SystemCapabilitiesIndex",
     "pages/ServerUrl",
-    "pages/Login"
+    "pages/Login",
+    "pages/HomePage"
   ]
 }

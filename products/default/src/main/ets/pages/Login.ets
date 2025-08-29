@@ -14,9 +14,8 @@ struct ServerUrl {
 
   login(email: string, pass: string): void {
     console.log(`Logging in with email: ${email} and password: ${pass}`);
-
     router.pushUrl({
-      url: 'pages/Index'
+      url: 'pages/HomePage'
     });
   }
 

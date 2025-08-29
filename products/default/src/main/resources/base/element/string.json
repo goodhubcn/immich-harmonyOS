@@ -39,6 +39,18 @@
     {
       "name": "immich_server_url",
       "value": "immich 服务器地址"
+    },
+    {
+      "name": "list_name",
+      "value": "列表选项"
+    },
+    {
+      "name": "add_list",
+      "value": "添加列表"
+    },
+    {
+      "name": "content",
+      "value": "内容区域"
     }
   ]
 }

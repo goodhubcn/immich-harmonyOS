@@ -145,3 +145,8 @@ export const ADAPTIVE_FLEXIBLE_COLUMN_WIDTH: string = '100%';
  * The value of shrink of column component.
  */
 export const ADAPTIVE_FLEX_SHRINK: number = 1;
+
+/**
+ * Animation duration.
+ */
+export const ANIMATION_DURATION: number = 300;

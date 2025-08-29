@@ -26,6 +26,21 @@ export default class DefaultAbility extends UIAbility {
       hilog.info(DOMAIN, 'testTag', 'Succeeded in loading the content.');
     });
 
+    let windowClass: window.Window = windowStage.getMainWindowSync(); // Get the main window of the application
+    // 1. Set the window to full screen
+    let isLayoutFullScreen = false;
+    windowClass.setWindowLayoutFullScreen(isLayoutFullScreen);
+    // 2. Cache window object
+    AppStorage.setOrCreate('windowClass', windowClass);
+
+    // 3. Obtain layout to avoid obstructed areas
+    let type = window.AvoidAreaType.TYPE_SYSTEM;
+    let avoidArea = windowClass.getWindowAvoidArea(type);
+    let statusBar =px2vp( avoidArea.topRect.height); // 获取状态栏的高度
+    AppStorage.setOrCreate('statusBar', statusBar);
+
+    console.log("statusBar height:", statusBar);
+
     windowStage.on('windowStageEvent', (data) => {
       let event: window.WindowStageEventType = data;
 
