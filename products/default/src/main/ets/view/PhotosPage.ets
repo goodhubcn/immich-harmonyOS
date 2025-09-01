@@ -14,9 +14,12 @@ export struct PhotosPage {
   @State isAddDialogVisible: boolean = false;
   @State photos: PhotosItemInterface[] = [];
 
-  private arr: number[] = [0, 1, 2];
   @State currentIndex: number = 0;
 
+  private arr: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+
+  private tooTmp: ToolbarItem = {'value': "func", 'icon': "./image/ic_public_highlights.svg", 'action': ()=> {}};
+  private tooBar: ToolbarItem[] = [this.tooTmp, this.tooTmp, this.tooTmp];
 
   controller: ControllerPhotosInterface = {
     onLoad: async (): Promise<PhotosItemInterface[]> => {
@@ -52,6 +55,7 @@ export struct PhotosPage {
   onDidBuild(): void {
     console.log("PhotosPage onDidBuild");
   }
+
   @Builder
   NavigationTitle() {
     Column() {
@@ -73,17 +77,30 @@ export struct PhotosPage {
   NavigationMenus() {
     Row() {
 
-      Button() {
-        Image('resources/base/media/add.svg')
-          .width(48)
-          .height(48)
+      Button({ type: ButtonType.Circle, stateEffect: true }) {
+        Image($r('app.media.add'))
+          .width(40)
+          .height(40)
           // .margin({ left: 8, top: 8, bottom: 8, right: 8 })
           // .margin({ top: 8 })
-          .onClick(() => {
+          // .onClick(() => {
+          //
+          //   console.log("Add menu clicked");
+          // })
+      }
+      .width(48)
+      .height(48)
+      .backgroundColor('#FFFFFF')
+      .margin({top: 5})
+      .onClick(() => {
+        console.log("Add menu clicked");
+        this.isAddDialogVisible = true;
+      })
 
-            console.log("Add menu clicked");
-          })
-      }.backgroundColor('#FFFFFF').margin({top: 5})
+      // let MarLeft: Record<string, number> = { 'left': 20 }
+      // Button({ type: ButtonType.Circle, stateEffect: true }) {
+      //   Image($r('app.media.ic_public_delete_filled')).width(30).height(30)
+      // }.width(55).height(55).margin(MarLeft).backgroundColor(0xF55A42)
 
 
       Image('resources/base/media/add.svg')
@@ -124,28 +141,32 @@ export struct PhotosPage {
             }
           }, (item: number) => item.toString())
         }
-        .height(324)
+        .height('100%')
         .width('100%')
-        .margin({ top: 12, left: '10%' })
+        // .margin({ top: 12, left: '10%' })
       }
-      .title(this.NavigationTitle)
-      .menus(this.NavigationMenus)
+      // .title(this.NavigationTitle)
+      // .menus(this.NavigationMenus)
+      .menus([{
+        value: "search", icon: $r("app.media.magnifyingglass"), action: () => {
+          console.log("Add menu clicked");
+          this.isAddDialogVisible = true;
+        }
+        },
+        {
+          value: "add", icon: $r("app.media.plus"), action: () => {
+          console.log("Add menu clicked");
+          this.isAddDialogVisible = true;
+        }
+        },
+        {
+          value: "more", icon: $r("app.media.more"), action: () => {
+          console.log("More menu clicked");
+        }
+        }])
       .mode(NavigationMode.Auto)
       // .titleMode(NavigationTitleMode.Free)
-      .toolbarConfiguration([
-        {
-          value: "add",
-          icon: $r("app.media.add"),
-        },
-        {
-          value: "app",
-          icon: $r("app.media.add")
-        },
-        {
-          value: "collect",
-          icon: $r("app.media.add")
-        }
-      ])
+      // .toolbarConfiguration(this.tooBar)
       .hideTitleBar(false)
       .hideToolBar(false)
       .hideBackButton(false)
@@ -153,10 +174,14 @@ export struct PhotosPage {
       .onTitleModeChange((titleModel: NavigationTitleMode) => {
         console.info('titleMode' + titleModel)
       })
+      .onNavBarStateChange((isCollapsed: boolean) => {
+        console.info('isCollapsed' + isCollapsed)
+      })
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#F1F3F5')
-    .padding({ top: this.statusBar });// 适配状态栏
+    // .backgroundColor('#F1F3F5')
+    .backgroundColor('#FFFFFF')
+    .padding({ top: this.statusBar});// 适配状态栏
   }
 }
