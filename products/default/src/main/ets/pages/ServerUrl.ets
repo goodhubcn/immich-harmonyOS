@@ -24,7 +24,8 @@ struct Login {
             return;
           }
 
-          AppStorage.setOrCreate('serverUrl', url);
+          PersistentStorage.persistProp('serverUrl', url);
+          //AppStorage.setOrCreate('serverUrl', url);
 
           router.pushUrl({
             url: 'pages/Login',

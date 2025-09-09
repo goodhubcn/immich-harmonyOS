@@ -5,6 +5,9 @@ import { PhotosPage } from '../view/PhotosPage';
 import { AlbumsPage } from '../view/AlbumsPage';
 import { MemoriesPage } from '../view/MemoriesPage';
 import { ControllerPhotosImpl } from '../Controller/ControllerPhotosImpl';
+import { RCPUtils } from '../network/RCPUtils';
+import { TimelineImpl } from '../server/TimelineImpl';
+import { rcp } from '@kit.RemoteCommunicationKit';
 
 @Entry
 @Component
@@ -18,11 +21,39 @@ struct HomePage {
   @State active: number = 0;
   @State show: boolean = false;
 
+  getBuckets(): void {
+
+    let timeline = new TimelineImpl(RCPUtils.getInstance());
+
+    timeline.getTimeBuckets().then((response) => {
+      console.log(`getTimeBuckets response: ${JSON.stringify(response)}`);
+
+      this.getBucket(response[0].timeBucket as string);
+
+    }).catch((error: Error) => {
+      console.error(`getTimeBuckets error: ${error.message}`);
+
+    });
+  }
+
+  getBucket(timebucket: string): void {
+
+    let timeline = new TimelineImpl(RCPUtils.getInstance());
+
+    timeline.getTimeBucket(timebucket).then((response) => {
+      console.log(`getTimeBucket response: ${JSON.stringify(response)}`);
+
+    }).catch((error: Error) => {
+      console.error(`getTimeBucket error: ${error.message}`);
+    });
+  }
+
   aboutToAppear(): void {
     router.clear();
 
     console.log("HomePage aboutToAppear");
 
+    this.getBuckets();
   }
 
   onPageShow(): void {

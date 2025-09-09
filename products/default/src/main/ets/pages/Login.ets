@@ -2,6 +2,8 @@ import { LoginComponent } from "../view/LoginComponent";
 import { router } from "@kit.ArkUI";
 import { Authentication } from "../server/Authentication";
 import { AuthenticationImpl } from "../server/AuthenticationImpl";
+import { RCPUtils } from "../network/RCPUtils";
+import { TimelineImpl } from "../server/TimelineImpl";
 
 interface UrlParamsInterface {
   serverUrl?: string;
@@ -14,14 +16,14 @@ struct ServerUrl {
   @State url: string =
     (router.getParams() as UrlParamsInterface).serverUrl as string; // 从路由参数中获取服务器地址，若不存在则赋值为空字符串
 
-  login(email: string, pass: string): void {
+  async login(email: string, pass: string): Promise<void> {
     console.log(`Logging in with email: ${email} and password: ${pass}`);
 
-    let baseUrl = AppStorage.get<string>('serverUrl') as string;
+    let baseUrl = "https://immich.goodhub.cn";//AppStorage.get<string>('serverUrl') as string;
 
-    let authentication: Authentication = new AuthenticationImpl(baseUrl);
+    let authentication: Authentication = new AuthenticationImpl(RCPUtils.getInstance());
 
-    authentication.login(email, pass).then((response) => {
+    await authentication.login(email, pass).then((response) => {
       // console.log(`Login response: ${JSON.stringify(response)}`);
       // LoginResponseInterface
       if (response.accessToken) {
@@ -46,6 +48,8 @@ struct ServerUrl {
     }).catch((error: Error) => {
       console.error(`Login error: ${error.message}`);
     });
+
+    return;
   }
 
   build() {

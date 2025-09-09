@@ -1,3 +1,6 @@
+import { BucketsResponseInterface } from "../viewmodel/BucketsResponseInterface";
+import { PhotosItemInterface } from "../viewmodel/PhotosItemInterface";
+
 export interface Timeline {
   //
   // https://v1.137.1.archive.immich.app/docs/api/get-assets-timeline
@@ -852,7 +855,7 @@ export interface Timeline {
     visibility?: 'archive' | 'timeline' | 'hidden' | 'locked',
     withPartners?: boolean,
     withStacked?: boolean
-  ) => Promise<void>;
+  ) => Promise<PhotosItemInterface>;
 
   /**
    * GET /timeline/buckets
@@ -914,7 +917,7 @@ export interface Timeline {
     visibility?: 'archive' | 'timeline' | 'hidden' | 'locked',
     withPartners?: boolean,
     withStacked?: boolean
-  ) => Promise<void>;
+  ) => Promise<BucketsResponseInterface[]>;
 
 
 }

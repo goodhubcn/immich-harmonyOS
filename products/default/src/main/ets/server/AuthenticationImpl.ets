@@ -2,16 +2,13 @@ import { LoginResponseInterface } from "../viewmodel/LoginResponseInterface";
 import { Authentication } from "./Authentication";
 import { rcp } from "@kit.RemoteCommunicationKit";
 import { BusinessError } from "@kit.BasicServicesKit";
+import { RCPUtils } from "../network/RCPUtils";
 
 export class AuthenticationImpl implements Authentication {
 
-  baseUrl: string = ''; //AppStorage.get<string>('serverUrl') as string;
-
-  rcpSession: rcp.Session;
-
-  constructor(url: string) {
-    this.baseUrl = url;
-    this.rcpSession = rcp.createSession();
+  rcputils: RCPUtils|undefined = undefined;
+  constructor(utils: RCPUtils) {
+    this.rcputils = utils;
   }
 
   async signUpAdmin(username: string, password: string): Promise<void> {
@@ -37,7 +34,7 @@ export class AuthenticationImpl implements Authentication {
       "email": email,
       "password": password
     }
-    await this.rcpSession.post(this.baseUrl + '/api/auth/login', requestContent).then((response) => {
+    await this.rcputils?.rcpSession().post(this.rcputils.baseUrl() + '/api/auth/login', requestContent).then((response) => {
 
       loginResponse = response.toJSON() as LoginResponseInterface;
 
@@ -46,6 +43,7 @@ export class AuthenticationImpl implements Authentication {
     });
     return loginResponse;
 	}
+
   async logout(): Promise<void> {
     // TODO
   }
