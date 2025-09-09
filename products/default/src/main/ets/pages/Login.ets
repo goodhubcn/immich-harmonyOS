@@ -1,5 +1,7 @@
 import { LoginComponent } from "../view/LoginComponent";
 import { router } from "@kit.ArkUI";
+import { Authentication } from "../server/Authentication";
+import { AuthenticationImpl } from "../server/AuthenticationImpl";
 
 interface UrlParamsInterface {
   serverUrl?: string;
@@ -14,8 +16,35 @@ struct ServerUrl {
 
   login(email: string, pass: string): void {
     console.log(`Logging in with email: ${email} and password: ${pass}`);
-    router.pushUrl({
-      url: 'pages/HomePage'
+
+    let baseUrl = AppStorage.get<string>('serverUrl') as string;
+
+    let authentication: Authentication = new AuthenticationImpl(baseUrl);
+
+    authentication.login(email, pass).then((response) => {
+      // console.log(`Login response: ${JSON.stringify(response)}`);
+      // LoginResponseInterface
+      if (response.accessToken) {
+        // 保存登录信息到本地存储
+        AppStorage.setOrCreate('accessToken', response.accessToken);
+        AppStorage.setOrCreate('userId', response.userId);
+        AppStorage.setOrCreate('userEmail', response.userEmail);
+        AppStorage.setOrCreate('userName', response.name);
+        AppStorage.setOrCreate('isAdmin', response.isAdmin);
+        AppStorage.setOrCreate('profileImagePath', response.profileImagePath);
+        AppStorage.setOrCreate('isOnboarded', response.isOnboarded);
+        AppStorage.setOrCreate('serverUrl', this.url);
+
+        // 跳转到首页
+        router.pushUrl({
+          url: 'pages/HomePage'
+        });
+
+      } else {
+        console.error('Login failed: No access token received');
+      }
+    }).catch((error: Error) => {
+      console.error(`Login error: ${error.message}`);
     });
   }
 

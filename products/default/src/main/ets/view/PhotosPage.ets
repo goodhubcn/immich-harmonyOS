@@ -1,5 +1,6 @@
 import { ControllerPhotosInterface } from "../Controller/ControllerPhotosInterface";
 import { PhotosItemInterface } from "../viewmodel/PhotosItemInterface";
+import { PhotosGridComponent } from "./PhotosGridComponent";
 
 @Preview
 @Component
@@ -121,28 +122,31 @@ export struct PhotosPage {
   build() {
     Column() {
       Navigation() {
-        TextInput({ placeholder: 'search...' })
-          .width('90%')
-          .height(40)
-          .backgroundColor('#FFFFFF')
-          .margin({ top: 8 })
 
-        List({ space: 12, initialIndex: 0 }) {
-          ForEach(this.arr, (item: number) => {
-            ListItem() {
-              Text('' + item)
-                .width('90%')
-                .height(72)
-                .backgroundColor('#FFFFFF')
-                .borderRadius(24)
-                .fontSize(16)
-                .fontWeight(500)
-                .textAlign(TextAlign.Center)
-            }
-          }, (item: number) => item.toString())
-        }
-        .height('100%')
-        .width('100%')
+        PhotosGridComponent({data: this.photos, controller: this.controller})
+
+        // TextInput({ placeholder: 'search...' })
+        //   .width('90%')
+        //   .height(40)
+        //   .backgroundColor('#FFFFFF')
+        //   .margin({ top: 8 })
+        //
+        // List({ space: 12, initialIndex: 0 }) {
+        //   ForEach(this.arr, (item: number) => {
+        //     ListItem() {
+        //       Text('' + item)
+        //         .width('90%')
+        //         .height(72)
+        //         .backgroundColor('#FFFFFF')
+        //         .borderRadius(24)
+        //         .fontSize(16)
+        //         .fontWeight(500)
+        //         .textAlign(TextAlign.Center)
+        //     }
+        //   }, (item: number) => item.toString())
+        // }
+        // .height('100%')
+        // .width('100%')
         // .margin({ top: 12, left: '10%' })
       }
       // .title(this.NavigationTitle)

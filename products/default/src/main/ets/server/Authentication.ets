@@ -1,3 +1,5 @@
+import { LoginResponseInterface } from "../viewmodel/LoginResponseInterface";
+
 export interface Authentication {
   //
   // https://v1.137.1.archive.immich.app/docs/api/get-auth-status
@@ -56,7 +58,7 @@ export interface Authentication {
    "isOnboarded": true
    }
    * */
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<LoginResponseInterface>;
 
   /**
    *

@@ -18,6 +18,14 @@ struct Login {
     RelativeContainer() {
       ServerURLComponent({
         callback: (url: string) => {
+
+          if (!url) {
+            console.log('Server URL is empty');
+            return;
+          }
+
+          AppStorage.setOrCreate('serverUrl', url);
+
           router.pushUrl({
             url: 'pages/Login',
             params: { serverUrl: url }
