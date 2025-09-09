@@ -8,16 +8,7 @@ export struct PhotosGridComponent {
   private endIndex: number = 12;
   scroller: Scroller = new Scroller()
 
-  controller: ControllerPhotosInterface = {
-    onLoad: async (): Promise<PhotosItemInterface[]> => {
-      console.log("PhotosGridComponent controller onLoad");
-      return [];
-    },
-    onNextLoad: async (): Promise<PhotosItemInterface[]> => {
-      console.log("PhotosGridComponent controller onNextLoad");
-      return [];
-    }
-  };
+  controller: ControllerPhotosInterface = {} as ControllerPhotosInterface;
 
   build() {
     Column({ space: 5 }) {

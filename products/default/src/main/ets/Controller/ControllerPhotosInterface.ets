@@ -1,3 +1,4 @@
+import { LoginResponseInterface } from "../viewmodel/LoginResponseInterface";
 import { PhotosItemInterface } from "../viewmodel/PhotosItemInterface";
 
 export interface ControllerPhotosInterface {
@@ -13,5 +14,7 @@ export interface ControllerPhotosInterface {
    *
    * */
   onNextLoad: () => Promise<PhotosItemInterface[]>;
+
+  login: (email: string, password: string) => Promise<LoginResponseInterface>;
 
 }

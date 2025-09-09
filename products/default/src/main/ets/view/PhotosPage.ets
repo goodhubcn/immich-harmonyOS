@@ -22,16 +22,7 @@ export struct PhotosPage {
   private tooTmp: ToolbarItem = {'value': "func", 'icon': "./image/ic_public_highlights.svg", 'action': ()=> {}};
   private tooBar: ToolbarItem[] = [this.tooTmp, this.tooTmp, this.tooTmp];
 
-  controller: ControllerPhotosInterface = {
-    onLoad: async (): Promise<PhotosItemInterface[]> => {
-      console.log("PhotosPage controller onLoad");
-      return [];
-    },
-    onNextLoad: async (): Promise<PhotosItemInterface[]> => {
-      console.log("PhotosPage controller onNextLoad");
-      return [];
-    }
-  };
+  controller: ControllerPhotosInterface = {} as ControllerPhotosInterface;
 
   aboutToAppear(): void {
     console.log("PhotosPage aboutToAppear");

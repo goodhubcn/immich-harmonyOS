@@ -39,7 +39,8 @@ struct ServerUrl {
 
         // 跳转到首页
         router.pushUrl({
-          url: 'pages/HomePage'
+          url: 'pages/HomePage',
+          params: {userInfo: response}
         });
 
       } else {

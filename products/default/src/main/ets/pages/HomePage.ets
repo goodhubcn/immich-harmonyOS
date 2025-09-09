@@ -8,11 +8,18 @@ import { ControllerPhotosImpl } from '../Controller/ControllerPhotosImpl';
 import { RCPUtils } from '../network/RCPUtils';
 import { TimelineImpl } from '../server/TimelineImpl';
 import { rcp } from '@kit.RemoteCommunicationKit';
+import { LoginResponseInterface } from '../viewmodel/LoginResponseInterface';
+
+interface UserInfoInterface {
+  userInfo?: LoginResponseInterface;
+}
 
 @Entry
 @Component
 struct HomePage {
   // statusBar: number = AppStorage.get<number>('statusBar') as number;
+  @State userInfo: LoginResponseInterface =
+    (router.getParams() as UserInfoInterface).userInfo as LoginResponseInterface;
 
   @State navList: Array<number> = [0, 1, 2];
   @State navTitle: Array<string> = ['照片', '相册', '时刻'];
@@ -24,6 +31,8 @@ struct HomePage {
   getBuckets(): void {
 
     let timeline = new TimelineImpl(RCPUtils.getInstance());
+
+    console.log('accessToken: ' + this.userInfo.accessToken);
 
     timeline.getTimeBuckets().then((response) => {
       console.log(`getTimeBuckets response: ${JSON.stringify(response)}`);
