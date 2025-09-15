@@ -4,6 +4,7 @@ import { BusinessError } from "@kit.BasicServicesKit";
 import { BucketsResponseInterface } from "../viewmodel/BucketsResponseInterface";
 import { PhotosItemInterface } from "../viewmodel/PhotosItemInterface";
 import { rcp } from "@kit.RemoteCommunicationKit";
+import { BucketResponseInterface } from "../viewmodel/BucketResponseInterface";
 
 export class TimelineImpl implements Timeline {
 
@@ -13,6 +14,7 @@ export class TimelineImpl implements Timeline {
   }
 
   async getTimeBucket(
+    accessToken: string,
     timeBucket: string,
     albumId?: string,
     isFavorite?: boolean,
@@ -25,19 +27,30 @@ export class TimelineImpl implements Timeline {
     visibility?: 'archive' | 'timeline' | 'hidden' | 'locked',
     withPartners?: boolean,
     withStacked?: boolean
-  ): Promise<PhotosItemInterface> {
+  ): Promise<BucketResponseInterface> {
     // http://192.168.1.50:8086/api/timeline/bucket?timeBucket=2025-06-01T00%3A00%3A00.000Z&visibility=timeline&withPartners=true&withStacked=true
 
     let getURL = this.rcputils?.baseUrl() + '/api/timeline/bucket?timeBucket=' + encodeURIComponent(timeBucket) + '&visibility=timeline&withPartners=true&withStacked=true';
 
     // let respData: PhotosItemInterface = {};
 
-    let respData: PhotosItemInterface = {} as PhotosItemInterface;
+    let respData: BucketResponseInterface = {} as BucketResponseInterface;
 
-    await this.rcputils?.rcpSession().get(getURL).then((response) => {
+    const sessionConfig: rcp.SessionConfiguration = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + accessToken
+      },
+      // timeout: 10000, // 10 seconds timeout
+    };
+
+    let rcpSession = rcp.createSession(sessionConfig);
+
+    await rcpSession.get(getURL).then((response) => {
       console.info(`Response succeeded: ${response}`);
 
-      respData = response.toJSON() as PhotosItemInterface;
+      respData = response.toJSON() as BucketResponseInterface;
 
     }).catch((err: BusinessError) => {
       console.error(`Response err: Code is ${JSON.stringify(err.code)}, message is ${JSON.stringify(err)}`);
@@ -47,6 +60,7 @@ export class TimelineImpl implements Timeline {
   }
 
   async getTimeBuckets(
+    accessToken: string,
     albumId?: string,
     isFavorite?: boolean,
     isTrashed?: boolean,
@@ -68,7 +82,7 @@ export class TimelineImpl implements Timeline {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer ' + AppStorage.get<string>('accessToken') as string
+        'Authorization': 'Bearer ' + accessToken
       },
       // timeout: 10000, // 10 seconds timeout
     };

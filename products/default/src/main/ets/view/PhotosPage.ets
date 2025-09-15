@@ -1,5 +1,6 @@
 import { ControllerPhotosInterface } from "../Controller/ControllerPhotosInterface";
 import { PhotosItemInterface } from "../viewmodel/PhotosItemInterface";
+import { ImageComponent } from "./ImageComponent";
 import { PhotosGridComponent } from "./PhotosGridComponent";
 
 @Preview
@@ -17,17 +18,19 @@ export struct PhotosPage {
 
   @State currentIndex: number = 0;
 
+  scroller: Scroller = new Scroller()
+
   private arr: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
   private tooTmp: ToolbarItem = {'value': "func", 'icon': "./image/ic_public_highlights.svg", 'action': ()=> {}};
   private tooBar: ToolbarItem[] = [this.tooTmp, this.tooTmp, this.tooTmp];
 
-  controller: ControllerPhotosInterface = {} as ControllerPhotosInterface;
+  controller?: ControllerPhotosInterface;
 
   aboutToAppear(): void {
     console.log("PhotosPage aboutToAppear");
 
-    this.controller.onLoad().then((data: PhotosItemInterface[]) => {
+    this.controller?.onLoad().then((data: PhotosItemInterface[]) => {
 
       console.log("PhotosPage onLoad data:", data);
 
@@ -114,31 +117,69 @@ export struct PhotosPage {
     Column() {
       Navigation() {
 
-        PhotosGridComponent({data: this.photos, controller: this.controller})
+        // PhotosGridComponent({data: this.photos, controller: this.controller})
 
-        // TextInput({ placeholder: 'search...' })
-        //   .width('90%')
-        //   .height(40)
-        //   .backgroundColor('#FFFFFF')
-        //   .margin({ top: 8 })
-        //
-        // List({ space: 12, initialIndex: 0 }) {
-        //   ForEach(this.arr, (item: number) => {
-        //     ListItem() {
-        //       Text('' + item)
-        //         .width('90%')
-        //         .height(72)
-        //         .backgroundColor('#FFFFFF')
-        //         .borderRadius(24)
-        //         .fontSize(16)
-        //         .fontWeight(500)
-        //         .textAlign(TextAlign.Center)
-        //     }
-        //   }, (item: number) => item.toString())
-        // }
-        // .height('100%')
-        // .width('100%')
-        // .margin({ top: 12, left: '10%' })
+        Column({ space: 5 }) {
+
+          Scroll(this.scroller) {
+
+            GridRow({
+              columns: 12,
+              gutter: 5,
+              // onBreakpointChange: (breakpoint: string) => {
+              //   console.log(breakpoint);
+              // }
+            }) {
+              ForEach(this.photos, (item: PhotosItemInterface) => {
+
+                // xs: 2, // 在最小宽度类型设备上，栅格子组件占据的栅格容器2列。
+                // sm: 3, // 在小宽度类型设备上，栅格子组件占据的栅格容器3列。
+                // md: 4, // 在中等宽度类型设备上，栅格子组件占据的栅格容器4列。
+                // lg: 6, // 在大宽度类型设备上，栅格子组件占据的栅格容器6列。
+                // xl: 8, // 在特大宽度类型设备上，栅格子组件占据的栅格容器8列。
+                // xxl: 12 // 在超大宽度类型设备上，栅格子组件占据的栅格容器12
+
+                GridCol({ span: { xs: 2, sm: 4, md: 4, lg: 6 } }) {
+                  Row() {
+                    // Text(item.toString())
+                    //   .fontSize(12)
+                    //   .fontWeight(400)
+                    //   .fontColor(Color.Black)
+                    //   .textAlign(TextAlign.Center)
+                    //   .width('100%')
+                    //   .height('100%')
+
+                    // Image(item.assetUrl).width('100%').height(100).backgroundColor(Color.Grey)
+
+                    ImageComponent({item: item, controller: this.controller})
+
+                  }.width('100%').height(100).backgroundColor(Color.Grey)
+                }
+              })
+            }.margin({ top: 5 })
+            .onBreakpointChange((breakpoint: string) => {
+              console.log(breakpoint);
+            })
+            .onAreaChange((oldValue: Area, newValue: Area) => {
+              console.log("onAreaChange, oldValue: " + oldValue + ", newValue: " + newValue);
+            })
+          }
+          .backgroundColor(Color.White)
+          .height('100%')
+          .onReachEnd(() => {
+            console.info('Reach End')
+            console.log(JSON.stringify(this.photos))
+          })
+          .scrollable(ScrollDirection.Vertical)
+          // .edgeEffect(EdgeEffect.Spring)
+          .scrollSnap({snapAlign:ScrollSnapAlign.START, snapPagination:400, enableSnapToStart:true, enableSnapToEnd:true})
+          .onScrollStop(() => {
+            console.info('Scroll Stop')
+            console.log(JSON.stringify(this.photos))
+          })
+
+        }.width('100%').height('100%')
+
       }
       // .title(this.NavigationTitle)
       // .menus(this.NavigationMenus)

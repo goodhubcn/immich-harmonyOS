@@ -1,14 +1,16 @@
 import { ControllerPhotosInterface } from "../Controller/ControllerPhotosInterface";
+import { RCPUtils } from "../network/RCPUtils";
 import { PhotosItemInterface } from "../viewmodel/PhotosItemInterface";
 
 @Component
 export struct PhotosGridComponent {
-  @State data: PhotosItemInterface[] = [];
+  // @State data: PhotosItemInterface[] = [];
   private startIndex: number = 0;
   private endIndex: number = 12;
   scroller: Scroller = new Scroller()
 
-  controller: ControllerPhotosInterface = {} as ControllerPhotosInterface;
+  controller?: ControllerPhotosInterface;
+  data: PhotosItemInterface[] = [];
 
   build() {
     Column({ space: 5 }) {
@@ -22,7 +24,7 @@ export struct PhotosGridComponent {
           //   console.log(breakpoint);
           // }
         }) {
-          ForEach(this.data, (item: number) => {
+          ForEach(this.data, (item: PhotosItemInterface) => {
 
             // xs: 2, // 在最小宽度类型设备上，栅格子组件占据的栅格容器2列。
             // sm: 3, // 在小宽度类型设备上，栅格子组件占据的栅格容器3列。
@@ -33,13 +35,16 @@ export struct PhotosGridComponent {
 
             GridCol({ span: { xs: 2, sm: 4, md: 4, lg: 6 } }) {
               Row() {
-                Text(item.toString())
-                  .fontSize(12)
-                  .fontWeight(400)
-                  .fontColor(Color.Black)
-                  .textAlign(TextAlign.Center)
-                  .width('100%')
-                  .height('100%')
+                // Text(item.toString())
+                //   .fontSize(12)
+                //   .fontWeight(400)
+                //   .fontColor(Color.Black)
+                //   .textAlign(TextAlign.Center)
+                //   .width('100%')
+                //   .height('100%')
+
+                Image(item.assetUrl).width('100%').height(100).backgroundColor(Color.Grey)
+
               }.width('100%').height(100).backgroundColor(Color.Grey)
             }
           })

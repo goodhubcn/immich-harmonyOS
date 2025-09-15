@@ -1,3 +1,4 @@
+import { BucketResponseInterface } from "../viewmodel/BucketResponseInterface";
 import { BucketsResponseInterface } from "../viewmodel/BucketsResponseInterface";
 import { PhotosItemInterface } from "../viewmodel/PhotosItemInterface";
 
@@ -843,6 +844,7 @@ export interface Timeline {
    Include stacked assets in the response. When true, only primary assets from stacks are returned.
    * */
   getTimeBucket: (
+    accessToken: string,
     timeBucket: string,
     albumId?: string,
     isFavorite?: boolean,
@@ -855,7 +857,7 @@ export interface Timeline {
     visibility?: 'archive' | 'timeline' | 'hidden' | 'locked',
     withPartners?: boolean,
     withStacked?: boolean
-  ) => Promise<PhotosItemInterface>;
+  ) => Promise<BucketResponseInterface>;
 
   /**
    * GET /timeline/buckets
@@ -906,6 +908,7 @@ export interface Timeline {
 
    * */
   getTimeBuckets: (
+    accessToken: string,
     albumId?: string,
     isFavorite?: boolean,
     isTrashed?: boolean,

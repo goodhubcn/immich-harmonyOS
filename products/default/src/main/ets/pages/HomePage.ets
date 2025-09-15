@@ -9,6 +9,7 @@ import { RCPUtils } from '../network/RCPUtils';
 import { TimelineImpl } from '../server/TimelineImpl';
 import { rcp } from '@kit.RemoteCommunicationKit';
 import { LoginResponseInterface } from '../viewmodel/LoginResponseInterface';
+import { ControllerPhotosInterface } from '../Controller/ControllerPhotosInterface';
 
 interface UserInfoInterface {
   userInfo?: LoginResponseInterface;
@@ -28,41 +29,55 @@ struct HomePage {
   @State active: number = 0;
   @State show: boolean = false;
 
+  photosController: ControllerPhotosInterface = new ControllerPhotosImpl(this.userInfo);
+
   getBuckets(): void {
 
-    let timeline = new TimelineImpl(RCPUtils.getInstance());
-
-    console.log('accessToken: ' + this.userInfo.accessToken);
-
-    timeline.getTimeBuckets().then((response) => {
-      console.log(`getTimeBuckets response: ${JSON.stringify(response)}`);
-
-      this.getBucket(response[0].timeBucket as string);
-
-    }).catch((error: Error) => {
-      console.error(`getTimeBuckets error: ${error.message}`);
-
-    });
+    // let token = this.userInfo.accessToken;
+    //
+    // this.photosController.getTimeBuckets(token).then((response) => {
+    //   console.log(`getTimeBuckets response: ${JSON.stringify(response)}`);
+    //
+    //   // if (response.length > 0) {
+    //   //   this.getBucket(response[0].timeBucket as string);
+    //   // }
+    //
+    // }).catch((error: Error) => {
+    //   console.error(`getTimeBuckets error: ${error.message}`);
+    // });
+    // let timeline = new TimelineImpl(RCPUtils.getInstance());
+    //
+    // console.log('accessToken: ' + this.userInfo.accessToken);
+    //
+    // timeline.getTimeBuckets().then((response) => {
+    //   console.log(`getTimeBuckets response: ${JSON.stringify(response)}`);
+    //
+    //   this.getBucket(response[0].timeBucket as string);
+    //
+    // }).catch((error: Error) => {
+    //   console.error(`getTimeBuckets error: ${error.message}`);
+    //
+    // });
   }
 
-  getBucket(timebucket: string): void {
-
-    let timeline = new TimelineImpl(RCPUtils.getInstance());
-
-    timeline.getTimeBucket(timebucket).then((response) => {
-      console.log(`getTimeBucket response: ${JSON.stringify(response)}`);
-
-    }).catch((error: Error) => {
-      console.error(`getTimeBucket error: ${error.message}`);
-    });
-  }
+  // getBucket(timebucket: string): void {
+  //
+  //   let timeline = new TimelineImpl(RCPUtils.getInstance());
+  //
+  //   timeline.getTimeBucket(timebucket).then((response) => {
+  //     console.log(`getTimeBucket response: ${JSON.stringify(response)}`);
+  //
+  //   }).catch((error: Error) => {
+  //     console.error(`getTimeBucket error: ${error.message}`);
+  //   });
+  // }
 
   aboutToAppear(): void {
     router.clear();
 
     console.log("HomePage aboutToAppear");
 
-    this.getBuckets();
+    // this.getBuckets();
   }
 
   onPageShow(): void {
@@ -150,7 +165,7 @@ struct HomePage {
         // [StartExclude Drawer_tab_side_bar_container]
         if (this.active === 0) {
 
-          PhotosPage({ controller: new ControllerPhotosImpl() })
+          PhotosPage({ controller: this.photosController })
 
         } else if (this.active === 1) {
           AlbumsPage()
