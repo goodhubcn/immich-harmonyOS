@@ -56,6 +56,8 @@ export class TimelineImpl implements Timeline {
       console.error(`Response err: Code is ${JSON.stringify(err.code)}, message is ${JSON.stringify(err)}`);
     });
 
+    rcpSession.close();
+
     return respData;
   }
 

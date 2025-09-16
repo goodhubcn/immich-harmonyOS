@@ -1,4 +1,4 @@
-import { ControllerPhotosInterface } from "../Controller/ControllerPhotosInterface";
+import { ControllerPhotosInterface } from "../controller/ControllerPhotosInterface";
 import { RCPUtils } from "../network/RCPUtils";
 import { PhotosItemInterface } from "../viewmodel/PhotosItemInterface";
 

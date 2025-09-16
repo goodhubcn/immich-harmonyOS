@@ -4,11 +4,11 @@ import { Authentication } from "../server/Authentication";
 import { AuthenticationImpl } from "../server/AuthenticationImpl";
 import { RCPUtils } from "../network/RCPUtils";
 import { TimelineImpl } from "../server/TimelineImpl";
-import { ControllerPhotosInterface } from "../Controller/ControllerPhotosInterface";
-import { ControllerPhotosImpl } from "../Controller/ControllerPhotosImpl";
+import { ControllerPhotosInterface } from "../controller/ControllerPhotosInterface";
+import { ControllerPhotosImpl } from "../controller/ControllerPhotosImpl";
 import { LoginResponseInterface } from "../viewmodel/LoginResponseInterface";
-import { ControllerUserImpl } from "../Controller/ControllerUserImpl";
-import { ControllerUserInterface } from "../Controller/ControllerUserInterface";
+import { ControllerUserImpl } from "../controller/ControllerUserImpl";
+import { ControllerUserInterface } from "../controller/ControllerUserInterface";
 
 interface UrlParamsInterface {
   serverUrl?: string;

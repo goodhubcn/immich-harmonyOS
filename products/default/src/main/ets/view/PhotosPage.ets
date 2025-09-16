@@ -1,4 +1,4 @@
-import { ControllerPhotosInterface } from "../Controller/ControllerPhotosInterface";
+import { ControllerPhotosInterface } from "../controller/ControllerPhotosInterface";
 import { PhotosItemInterface } from "../viewmodel/PhotosItemInterface";
 import { ImageComponent } from "./ImageComponent";
 import { PhotosGridComponent } from "./PhotosGridComponent";
@@ -168,7 +168,13 @@ export struct PhotosPage {
           .height('100%')
           .onReachEnd(() => {
             console.info('Reach End')
-            console.log(JSON.stringify(this.photos))
+            // console.log(JSON.stringify(this.photos))
+
+            this.controller?.onNextLoad().then((data: PhotosItemInterface[]) => {
+              console.log("PhotosPage onNextLoad data:", data);
+              this.photos = data;
+            });
+
           })
           .scrollable(ScrollDirection.Vertical)
           // .edgeEffect(EdgeEffect.Spring)

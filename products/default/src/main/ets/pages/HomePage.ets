@@ -4,12 +4,12 @@ import { router } from '@kit.ArkUI';
 import { PhotosPage } from '../view/PhotosPage';
 import { AlbumsPage } from '../view/AlbumsPage';
 import { MemoriesPage } from '../view/MemoriesPage';
-import { ControllerPhotosImpl } from '../Controller/ControllerPhotosImpl';
+import { ControllerPhotosImpl } from '../controller/ControllerPhotosImpl';
 import { RCPUtils } from '../network/RCPUtils';
 import { TimelineImpl } from '../server/TimelineImpl';
 import { rcp } from '@kit.RemoteCommunicationKit';
 import { LoginResponseInterface } from '../viewmodel/LoginResponseInterface';
-import { ControllerPhotosInterface } from '../Controller/ControllerPhotosInterface';
+import { ControllerPhotosInterface } from '../controller/ControllerPhotosInterface';
 
 interface UserInfoInterface {
   userInfo?: LoginResponseInterface;

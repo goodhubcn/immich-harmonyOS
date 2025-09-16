@@ -34,12 +34,11 @@ export class ControllerPhotosImpl implements ControllerPhotosInterface {
 
     for ( let i = this.pageIndex; i < this.buckets.length; i++ ) {
       num += this.buckets[i].count as number;
+      needBuckets.push(this.buckets[i]);
+      this.pageIndex += 1;
 
-      if ( num <= this.PageCount ) {
-        needBuckets.push(this.buckets[i]);
-        this.pageIndex += 1;
-      } else {
-        break;
+      if ( num >= this.PageCount ) {
+        break
       }
     }
 
@@ -108,7 +107,26 @@ export class ControllerPhotosImpl implements ControllerPhotosInterface {
 
   async onNextLoad(): Promise<PhotosItemInterface[]> {
     console.log("ControllerPhotosImpl onNextLoad");
-    return [];
+    // 2. getTimeBucket
+    let urls = this.getNextTimeBuckets();
+    if ( urls.length > 0 ) {
+
+      for ( let bucket of urls ) {
+
+        let timeline = new TimelineImpl(RCPUtils.getInstance());
+        await timeline.getTimeBucket(this.userInfo.accessToken, bucket.timeBucket).then((response) => {
+
+          // 处理 response，例如将照片添加到某个列表中
+          this.addPhotos(response, bucket.count as number);
+
+        }).catch((error: Error) => {
+          console.error(`getTimeBucket error for ${bucket.timeBucket}: ${error.message}`);
+        });
+
+      }
+    }
+
+    return this.photos;
   }
 
   async getTimeBuckets(
@@ -168,6 +186,8 @@ export class ControllerPhotosImpl implements ControllerPhotosInterface {
       console.error(`Response err: Code is ${JSON.stringify(err.code)}, message is ${JSON.stringify(err)}`);
       throw new Error(`Failed to load image from ${url}: ${err.message}`);
     });
+
+    rcpSession.close();
 
     return data;
   }
