@@ -2,4 +2,4 @@
 The immich app for HarmonyOS NEXT.
 
 # Architecture
-![[architecture.jpg]]
+![architecture.jpg]
