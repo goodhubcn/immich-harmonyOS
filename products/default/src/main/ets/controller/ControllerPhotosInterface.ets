@@ -18,4 +18,5 @@ export interface ControllerPhotosInterface {
 
   loadImage2Local(url: string): Promise<ArrayBuffer>;
 
+  uploadAssets(filePaths: string[]): Promise<PhotosItemInterface[]>;
 }

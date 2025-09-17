@@ -26,6 +26,11 @@ export class ControllerPhotosImpl implements ControllerPhotosInterface {
       this.userInfo = userInfo;
   }
 
+  uploadAssets(filePaths: string[]): Promise<PhotosItemInterface[]> {
+    //TODO
+    throw new Error("Method not implemented.");
+  }
+
   getNextTimeBuckets(): BucketsResponseInterface[] {
 
     let needBuckets: BucketsResponseInterface[] = [];

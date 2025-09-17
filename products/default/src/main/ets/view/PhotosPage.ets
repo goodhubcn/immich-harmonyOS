@@ -1,7 +1,10 @@
 import { ControllerPhotosInterface } from "../controller/ControllerPhotosInterface";
+import { ControllerPickerImpl } from "../controller/ControllerPickerImpl";
+import { ControllerPickerInterface } from "../controller/ControllerPickerInterface";
 import { PhotosItemInterface } from "../viewmodel/PhotosItemInterface";
 import { ImageComponent } from "./ImageComponent";
 import { PhotosGridComponent } from "./PhotosGridComponent";
+import { ArrayList } from "@kit.ArkTS";
 
 @Preview
 @Component
@@ -26,6 +29,39 @@ export struct PhotosPage {
   private tooBar: ToolbarItem[] = [this.tooTmp, this.tooTmp, this.tooTmp];
 
   controller?: ControllerPhotosInterface;
+
+  private menus: Array<NavigationMenuItem> | CustomBuilder = [{
+    value: "search", icon: $r("app.media.magnifyingglass"), action: () => {
+      console.log("search menu clicked");
+      this.isAddDialogVisible = true;
+    }
+  },
+    {
+      value: "add", icon: $r("app.media.plus"), action: () => {
+      console.log("add menu clicked");
+      this.isAddDialogVisible = true;
+
+      const controller: ControllerPickerInterface = new ControllerPickerImpl();
+
+      controller.pickImages().then((images: string[]) => {
+        console.log("Picked images:", images);
+
+        this.controller?.uploadAssets(images).then((data: PhotosItemInterface[]) => {
+          console.log("PhotosPage uploadAssets data:", data);
+
+          this.photos = data;
+
+        });
+      }).catch((error: Error) => {
+        console.error("Error picking images:", error);
+      });
+    }
+    },
+    {
+      value: "more", icon: $r("app.media.more"), action: () => {
+      console.log("More menu clicked");
+    }
+    }];
 
   aboutToAppear(): void {
     console.log("PhotosPage aboutToAppear");
@@ -189,23 +225,7 @@ export struct PhotosPage {
       }
       // .title(this.NavigationTitle)
       // .menus(this.NavigationMenus)
-      .menus([{
-        value: "search", icon: $r("app.media.magnifyingglass"), action: () => {
-          console.log("Add menu clicked");
-          this.isAddDialogVisible = true;
-        }
-        },
-        {
-          value: "add", icon: $r("app.media.plus"), action: () => {
-          console.log("Add menu clicked");
-          this.isAddDialogVisible = true;
-        }
-        },
-        {
-          value: "more", icon: $r("app.media.more"), action: () => {
-          console.log("More menu clicked");
-        }
-        }])
+      .menus(this.menus)
       .mode(NavigationMode.Auto)
       // .titleMode(NavigationTitleMode.Free)
       // .toolbarConfiguration(this.tooBar)
